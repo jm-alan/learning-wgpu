@@ -19,4 +19,5 @@ pub struct App<'surface_lifetime> {
   adapter: Option<Adapter>,
   device: Option<(Device, Queue)>,
   pipeline: Option<RenderPipeline>,
+  resize_standby: Option<WindowEvent>,
 }

@@ -2,10 +2,26 @@ use wgpu::{
   Color, CommandEncoder, CommandEncoderDescriptor, LoadOp, Operations, RenderPassColorAttachment,
   RenderPassDescriptor, StoreOp, TextureView, TextureViewDescriptor,
 };
+use winit::dpi::PhysicalSize;
 
 use crate::app::App;
 
 impl App<'_> {
+  pub(crate) fn on_resize(&mut self, size: PhysicalSize<u32>) {
+    let Some(ref window) = self.window else {
+      unreachable!();
+    };
+    let Some(ref mut config) = self.surface_config else {
+      unreachable!();
+    };
+
+    config.width = size.width;
+    config.height = size.height;
+
+    self.configure_surface();
+    window.request_redraw();
+  }
+
   pub(crate) fn on_redraw(&self) {
     let Some(ref surface) = self.surface else {
       unreachable!();

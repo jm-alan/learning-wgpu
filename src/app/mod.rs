@@ -15,7 +15,7 @@ pub struct App<'surface_lifetime> {
   instance: Instance,
   window: Option<Arc<Window>>,
   surface: Option<Surface<'surface_lifetime>>,
-  pub(crate) surface_config: Option<SurfaceConfiguration>,
+  surface_config: Option<SurfaceConfiguration>,
   adapter: Option<Adapter>,
   device: Option<(Device, Queue)>,
   pipeline: Option<RenderPipeline>,

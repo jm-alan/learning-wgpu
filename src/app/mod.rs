@@ -1,15 +1,22 @@
-use std::collections::VecDeque;
+use std::{collections::VecDeque, sync::Arc};
+use wgpu::{Adapter, Device, Instance, Queue, RenderPipeline, Surface, SurfaceConfiguration};
 use winit::{
   event::WindowEvent,
   window::{Window, WindowId},
 };
 
-mod app_handler;
+mod impls;
 
 #[derive(Default)]
-pub struct App {
+pub struct App<'surface_lifetime> {
   active: bool,
   ready: bool,
-  window: Option<Window>,
   unready_events: VecDeque<(WindowId, WindowEvent)>,
+  instance: Instance,
+  window: Option<Arc<Window>>,
+  surface: Option<Surface<'surface_lifetime>>,
+  pub(crate) surface_config: Option<SurfaceConfiguration>,
+  adapter: Option<Adapter>,
+  device: Option<(Device, Queue)>,
+  pipeline: Option<RenderPipeline>,
 }

@@ -8,7 +8,7 @@ fn main() {
     panic!("Failed to create event loop");
   };
 
-  let Ok(_) = eloop.run_app(&mut App::default()) else {
-    panic!("Application exited unexpectedly");
+  let Ok(_) = eloop.run_app(&mut App::new()) else {
+    panic!("App shut down unexpectedly");
   };
 }

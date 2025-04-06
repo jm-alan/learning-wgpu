@@ -1,5 +1,7 @@
 use winit::{
-  application::ApplicationHandler, event::WindowEvent, event_loop::ActiveEventLoop,
+  application::ApplicationHandler,
+  event::{DeviceEvent, DeviceId, WindowEvent},
+  event_loop::ActiveEventLoop,
   window::WindowId,
 };
 
@@ -23,9 +25,9 @@ impl ApplicationHandler for App<'_> {
     }
   }
 
-  fn window_event(&mut self, eloop: &ActiveEventLoop, wid: WindowId, event: WindowEvent) {
+  fn window_event(&mut self, eloop: &ActiveEventLoop, w_id: WindowId, event: WindowEvent) {
     if !self.ready {
-      self.unready_events.push_back((wid, event));
+      self.unready_events.push_back((w_id, event));
       return;
     }
 
@@ -46,7 +48,9 @@ impl ApplicationHandler for App<'_> {
         was_resized = true;
         self.resize_standby = Some(re);
       },
-      _ => println!("WEVENT: {event:?}"),
+      _ => {
+        println!("[_]: {event:?}");
+      },
     }
 
     if was_resized {
@@ -57,5 +61,12 @@ impl ApplicationHandler for App<'_> {
       self.resize_standby = None;
       self.on_resize(ps);
     };
+  }
+
+  fn device_event(&mut self, eloop: &ActiveEventLoop, d_id: DeviceId, event: DeviceEvent) {
+    match event {
+      DeviceEvent::MouseMotion { .. } => {},
+      _ => println!("_X_: {event:?}"),
+    }
   }
 }
